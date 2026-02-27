@@ -4,7 +4,7 @@ on:
     branches:
       - 'master'
     tags:
-      - '**'
+      - 'v*'
 jobs:
   push:
     runs-on: ubuntu-latest
@@ -19,11 +19,11 @@ jobs:
           tags: |
             # Tag with "latest" on the master branch
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/master' }}
+            # 3. 브랜치 이름을 태그로 사용 (예: master, dev 등)
+            type=ref,event=branch
             # Tag with semver for Git Tags (e.g., v1.0.0)
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
-            # 3. 브랜치 이름을 태그로 사용 (예: master, dev 등)
-            type=ref,event=branch
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
